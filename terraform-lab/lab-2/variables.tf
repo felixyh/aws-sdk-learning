@@ -175,7 +175,7 @@ locals {
             source_security_group_id = module.web_server_sg.security_group_id
       },
     ]
-    db_major_engine_version = "8.0.28"
+    db_major_engine_version = "8.0"
     db_family = "mysql8.0"
     db_create_db_subnet_group = true
 }
