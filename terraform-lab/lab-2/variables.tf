@@ -178,6 +178,7 @@ locals {
     db_major_engine_version = "8.0"
     db_family = "mysql8.0"
     db_create_db_subnet_group = true
+    db_multi_az = true
 }
 
 variable "db_identifier" {

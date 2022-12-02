@@ -98,6 +98,8 @@ module "db" {
   major_engine_version = local.db_major_engine_version
   family = local.db_family
 
+  multi_az = local.db_multi_az
+
   vpc_security_group_ids = [module.db_sg.security_group_id]
 
   tags = var.db_tags
