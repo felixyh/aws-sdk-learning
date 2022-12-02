@@ -158,7 +158,7 @@ locals {
     db_identifier = "lab-db"
 
     db_engine            = "mysql"
-    db_engine_version    = "5.7.25"
+    db_engine_version    = "8.0.28"
     db_instance_class    = "db.t3.micro"
     db_allocated_storage = 5
 
