@@ -99,7 +99,8 @@ module "db" {
   family = local.db_family
 
   multi_az = local.db_multi_az
-
+  skip_final_snapshot = local.db_skip_final_snapshot
+  
   vpc_security_group_ids = [module.db_sg.security_group_id]
 
   tags = var.db_tags

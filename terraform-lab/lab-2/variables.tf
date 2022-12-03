@@ -181,6 +181,7 @@ locals {
     db_family = "mysql8.0"
     db_create_db_subnet_group = true
     db_multi_az = true
+    db_skip_final_snapshot = true
 }
 
 variable "db_identifier" {
