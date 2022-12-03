@@ -106,6 +106,6 @@ module "db" {
 
   # DB subnet group
   create_db_subnet_group = local.db_create_db_subnet_group
-  subnet_ids             = module.vpc.public_subnets
+  subnet_ids             = module.vpc.private_subnets
 
 }
