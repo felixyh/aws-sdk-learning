@@ -89,24 +89,18 @@ module "db" {
   engine_version    = local.db_engine_version
   instance_class    = local.db_instance_class
   allocated_storage = local.db_allocated_storage
-
   db_name  = local.db_db_name
   username = local.db_username
   password = local.db_password
   port     = local.db_port
-
   major_engine_version = local.db_major_engine_version
   family = local.db_family
-
   multi_az = local.db_multi_az
   skip_final_snapshot = local.db_skip_final_snapshot
-  
   vpc_security_group_ids = [module.db_sg.security_group_id]
-
   tags = var.db_tags
-
   # DB subnet group
   create_db_subnet_group = local.db_create_db_subnet_group
-  subnet_ids             = module.vpc.private_subnets
-
+  subnet_ids = module.vpc.private_subnets
+  
 }
