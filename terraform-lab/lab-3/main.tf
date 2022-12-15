@@ -52,22 +52,22 @@ module "ssh_sg" {
   
 }
 
-module "ec2_instance" {
-  source  = "terraform-aws-modules/ec2-instance/aws"
+# module "ec2_instance" {
+#   source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name = var.ec2_instance_name
+#   name = var.ec2_instance_name
 
-  ami                    = var.ec2_instance_ami
-  instance_type          = var.ec2_instance_instance_type
-  key_name               = var.ec2_instance_key_name
-  vpc_security_group_ids = [module.web_server_sg.security_group_id, module.ssh_sg.security_group_id]
-  subnet_id              = module.vpc.public_subnets[1]
+#   ami                    = var.ec2_instance_ami
+#   instance_type          = var.ec2_instance_instance_type
+#   key_name               = var.ec2_instance_key_name
+#   vpc_security_group_ids = [module.web_server_sg.security_group_id, module.ssh_sg.security_group_id]
+#   subnet_id              = module.vpc.public_subnets[1]
 
-  user_data = "${file("install_web_server.sh")}"
+#   user_data = "${file("install_web_server.sh")}"
 
-  tags = var.ec2_instance_tags
+#   tags = var.ec2_instance_tags
 
-}
+# }
 
 
 # for db security group
@@ -159,6 +159,7 @@ module "asg" {
   # Autoscaling group
   name = local.asg_name
 
+  # combine ASG with loadbalancer alb through target_group_arns
   target_group_arns = module.alb.target_group_arns
 
   min_size                  = local.asg_min_size
@@ -182,9 +183,10 @@ module "asg" {
   key_name               = var.ec2_instance_key_name
 
   # user_data = base64encode(file("install_web_server.sh"))
-  user_data = "${base64encode(file("install_web_server.sh"))}"
+  user_data = filebase64("${path.module}/install_web_server.sh")
+  
 
-  security_groups = [module.asg_sg.security_group_id, module.web_server_sg.security_group_id, module.ssh_sg.security_group_id]
+  security_groups = [module.asg_sg.security_group_id]
 
   tags = local.asg_tags
 }
