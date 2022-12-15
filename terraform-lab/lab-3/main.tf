@@ -184,7 +184,7 @@ module "asg" {
 
   # user_data = base64encode(file("install_web_server.sh"))
   user_data = filebase64("${path.module}/install_web_server.sh")
-  
+
 
   security_groups = [module.asg_sg.security_group_id]
 
