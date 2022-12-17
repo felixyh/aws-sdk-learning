@@ -241,6 +241,23 @@ locals {
             description = "web"
             source_security_group_id = module.web_server_sg.security_group_id
       },
+        {
+            from_port   = 22
+            to_port     = 22
+            protocol    = "tcp"
+            description = "ssh"
+            source_security_group_id = module.web_server_sg.security_group_id
+      },
+    ]
+
+    asg_sg_egress_with_cidr_blocks = [
+        {
+            from_port = -1
+            to_port = -1
+            protocol    = "all"
+            description = "all ports for egress of EC2"
+            cidr_blocks = "0.0.0.0/0"
+        },
     ]
 
     asg_name = "lab-asg"
@@ -263,7 +280,7 @@ locals {
 
     asg_lc_name           = "lab-asg-launch-configuration"
     asg_image_id          = "ami-0366e7e36827b904b"
-    asg_instance_type     = "t3.micro"
+    asg_instance_type     = "t2.micro"
     asg_ebs_optimized     = true
     asg_enable_monitoring = true
 
@@ -273,6 +290,19 @@ locals {
     }
 
     asg_sg_name = "lab-asg-sg"
+
+    asg_scaling_policies = {
+        lab-autoscaling-policy = {
+            policy_type               = "TargetTrackingScaling"
+            target_tracking_configuration = {
+                predefined_metric_specification = {
+                predefined_metric_type = "ASGAverageCPUUtilization"
+                # resource_label         = "Lab-Label"
+                }
+                target_value = 50.0
+            }
+        }
+    }
 
 
 

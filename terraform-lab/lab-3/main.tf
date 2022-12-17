@@ -125,14 +125,6 @@ module "alb" {
 
   target_groups = local.alb_target_groups
 
-  # https_listeners = [
-  #   {
-  #     port               = 443
-  #     protocol           = "HTTPS"
-  #     certificate_arn    = "arn:aws:iam::123456789012:server-certificate/test_cert-123456789012"
-  #     target_group_index = 0
-  #   }
-  # ]
 
   http_tcp_listeners = local.alb_http_tcp_listeners
 
@@ -151,6 +143,7 @@ module "asg_sg" {
   vpc_id      = module.vpc.vpc_id
 
   ingress_with_source_security_group_id = local.asg_sg_ingress_with_source_security_group_id
+  egress_with_cidr_blocks = local.asg_sg_egress_with_cidr_blocks
 }
 
 module "asg" {
@@ -174,19 +167,38 @@ module "asg" {
   # Launch configuration
   launch_template_name = local.asg_lc_name
 
-  # image_id          = local.asg_image_id
-  # instance_type     = local.asg_instance_type
-  # key_name          = var.ec2_instance_key_name
+  image_id          = local.asg_image_id
+  instance_type     = local.asg_instance_type
+  key_name          = var.ec2_instance_key_name
 
-  image_id               = var.ec2_instance_ami
-  instance_type          = var.ec2_instance_instance_type
-  key_name               = var.ec2_instance_key_name
+  # image_id               = var.ec2_instance_ami
+  # instance_type          = var.ec2_instance_instance_type
+  # key_name               = var.ec2_instance_key_name
 
-  # user_data = base64encode(file("install_web_server.sh"))
-  user_data = filebase64("${path.module}/install_web_server.sh")
-
+  # user_data = "${file("install_web_server.sh")}"
+  
+  # user_data = filebase64("${path.module}/install_web_server.sh")
+  # user_data = base64encode("install_web_server.sh")
+  # user_data = filebase64("install_web_server.sh")
+  # user_data = <<-EOF
+  #             #!/bin/bash -ex 
+  #             yum -y install httpd php mysql php-mysql 
+  #             chkconfig httpd on 
+  #             service httpd start 
+  #             if [ ! -f /var/www/html/lab-app.tgz ]; then 
+  #             cd /var/www/html 
+  #             wget https://us-west-2-tcprod.s3.amazonaws.com/courses/ILT-TF-100-TECESS/v4.5.2/lab-1-build-a-web-server/scripts/lab-app.tgz 
+  #             tar xvfz lab-app.tgz
+  #             chown apache:root /var/www/html/rds.conf.php 
+  #             fi
+  #             EOF
+  
 
   security_groups = [module.asg_sg.security_group_id]
+
+  # create autoscaling policy based on avgCPUutilization
+  scaling_policies = local.asg_scaling_policies
+
 
   tags = local.asg_tags
 }
