@@ -1,0 +1,25 @@
+{
+  'ResponseMetadata': {
+    'RequestId': 'QWWZSHC1837949QE', 
+    'HostId': 'LS69GiNYEmodcyXNmlcCLQbw0rAVAEMWIYo+RU/ouYVVZcJyNWVezGDrt4GiB/5BP36Atm2HmKg=', 
+    'HTTPStatusCode': 200, 
+    'HTTPHeaders': {
+      'x-amz-id-2': 'LS69GiNYEmodcyXNmlcCLQbw0rAVAEMWIYo+RU/ouYVVZcJyNWVezGDrt4GiB/5BP36Atm2HmKg=', 
+      'x-amz-request-id': 'QWWZSHC1837949QE', 
+      'date': 'Fri, 23 Dec 2022 10:26:39 GMT', 
+      'content-type': 'application/xml', 
+      'transfer-encoding': 'chunked', 
+      'server': 'AmazonS3'}, 
+    'RetryAttempts': 0},
+
+  'Buckets': [
+    {'Name': 'ap-northeast-11', 
+    'CreationDate': datetime.datetime(2020, 4, 24, 7, 2, 41, tzinfo=tzutc())
+    }, 
+    {'Name': 'ap-northeast-22', 
+    'CreationDate': datetime.datetime(2020, 4, 24, 6, 58, 19, tzinfo=tzutc())
+    }, 
+    ], 
+
+  'Owner': {'ID': 'b21ffa24f27437d4dcde7fa98c11976941d5f47d0c96a65038ad4c49e8c95fb7'}
+}
